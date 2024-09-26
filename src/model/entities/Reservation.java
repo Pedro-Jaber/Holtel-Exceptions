@@ -10,7 +10,8 @@ public class Reservation {
     private Date checkIn;
     private Date checkOut;
 
-    private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); //static avoid multiple instances of SimpleDateFormat
+    private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
+    // static avoid multiple instances of SimpleDateFormat
 
     public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
         this.roomNumber = roomNumber;
@@ -21,25 +22,28 @@ public class Reservation {
     @Override
     public String toString() {
         return "Room "
-            + roomNumber
-            + ", check-in: "
-            + sdf.format(checkIn)
-            + ", chech-out: "
-            + sdf.format(checkOut)
-            + ", "
-            + duration()
-            + " nights";
+                + roomNumber
+                + ", check-in: "
+                + sdf.format(checkIn)
+                + ", chech-out: "
+                + sdf.format(checkOut)
+                + ", "
+                + duration()
+                + " nights";
     }
-    
+
     public Integer getRoomNumber() {
         return roomNumber;
     }
+
     public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;
     }
+
     public Date getCheckIn() {
         return checkIn;
     }
+
     public Date getCheckOut() {
         return checkOut;
     }
@@ -50,14 +54,20 @@ public class Reservation {
         return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
-    public void updateDAtes(Date checkIn, Date checkOut) {
+    public String updateDAtes(Date checkIn, Date checkOut) {
+
+        Date now = new Date();
+        if (checkIn.before(now) || checkOut.before(now)) {
+            return "Reservation date for update must be future dates";
+        }
+        if (!checkOut.after(checkIn)) {
+            return "Check-out date must be after check-in date";
+        }
+
         this.checkIn = checkIn;
         this.checkOut = checkOut;
+
+        return null;
     }
-
-
-
-    
-
 
 }
